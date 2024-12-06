@@ -16,12 +16,12 @@ layout = dbc.Col([
         dbc.Col([
             dbc.CardGroup([
                 dbc.Card([
-                    html.Legend('Dashboards'),
+                    html.Legend('Saldos'),
                     html.H5('Dados', id='card-dashboards',style={}),
                     ],style={'padding-left': '20px', 'padding-top':'10px'}),
 
                 dbc.Card(
-                    html.Div(className="bi bi-speedometer2", style={'color': 'white', 'textalign': 'center', 'fontsize': '30', 'margin': 'auto'}),
+                    html.Div(className="bi bi-cash-coin", style={'color': 'white', 'textalign': 'center', 'fontsize': '30', 'margin': 'auto'}),
                     color='blue',
                     style={'maxWidth': 75, 'height': 100, 'margin-left': '-10px'}
                 ),
@@ -76,7 +76,7 @@ layout = dbc.Col([
                     persistence_type='session',
                     multi=True),
                 ),
-
+                #filtros de receitas
                 html.Label('Filtrar Receitas'),
                 html.Div(
                     dcc.Dropdown(
@@ -87,7 +87,7 @@ layout = dbc.Col([
                     persistence_type='session',
                     multi=True),
                 ),
-
+                #calendario dos filtros
                 html.Legend('Periodo de Analise por Data', style={'margin-top': '10px'}),
                 dcc.DatePickerRange(
                     month_format='Do MMM, YY',

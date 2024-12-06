@@ -68,13 +68,13 @@ layout = dbc.Card([
                             dbc.Checklist(
                                 options=[],
                                 value=[],
-                                id='outros-receita',
+                                id='outra-receita',
                                 switch=True
                             ),
                         ],width=4 , style={'margin-top': '10px'}),
 
                         dbc.Col([
-                            html.Label('Categoria da Receita'),
+                            html.Label('Categoria'),
                             dbc.Select(
                                 id='selecao-receita',
                                 options=[],
@@ -89,22 +89,117 @@ layout = dbc.Card([
                                 dbc.Row([
                                     dbc.Col([
                                        html.Legend('Adicionar Categoria', style={'color': 'green'}),
-                                       dbc.Input()
-                                    ])
+                                       dbc.Input(type='text',placeholder='Nova Categoria',id='nova-categoria', value=""),
+                                       html.Br(),
+                                       dbc.Button('Adicionar',className='btn btn-success',id='botao-adicionar-receita',style={'margin-top': '20px'}),
+                                       html.Br(),
+                                       html.Div(id='divisao-categoria-receita'),
+                                    ], width=6),
+                                    dbc.Col([
+                                        html.Legend('Excluir Categorias',style={'color': 'red', 'margin-left': '20px'}),
+                                        dbc.Checklist(id='selecao-checklist', 
+                                                      options=[],
+                                                      value=[],
+                                                      label_checked_style={'color': 'red'},
+                                                      input_checked_style={'backgroundcolor':'blue','bordercolor': 'red'}                                                     
+                                                    ),
+                                    dbc.Button('Remover',color='danger', id='remover-categoria-receita', style={'margin-top': '23%', 'margin-left': '20px'})
+                                    ],width=6)
                                 ])
-                            ])
+                            ], title='Adicionar e Remover Categorias')
+                        ], flush=True, start_collapsed=True, id='adicionar-remover' ,style={'margin-top': '20px'}),
+
+                        html.Div(id='teste-receita', style={'padding-top': '20px'}),
+                        dbc.ModalFooter([
+                            dbc.Button('Adicionar Receita', id='salvar-receita', color='success'),
+                            dbc.Popover(dbc.PopoverBody('Receita Salva'), target='salvar_receita', placement='left', trigger='click')
                         ])
-                    ])
+                    ], style={'margin-top': '25px'}),
                 ]),
-            ], id='modal-botao1'),
+            ], id='modal-botao1', style={'backgroundcolor': 'rgba(17, 140,79, 0.05)' }, size='lg', is_open=False, centered=True, backdrop=True ),
 
             #modal dos medicamentos
             dbc.Modal([
                 dbc.ModalHeader(dbc.ModalTitle('Medicamentos')),
                 dbc.ModalBody([
-                
+                    dbc.Row([
+                        dbc.Col([
+                            dbc.Label('Descrição'),
+                            dbc.Input(placeholder='Descrição', id='descricao-modal2'),
+                            
+                        ], width=6),
+                        dbc.Col([
+                            dbc.Label('Valor'),
+                            dbc.Input(placeholder='Valor', id='valor-modal2', value="")
+                        ], width=3),
+                    ]),
+
+                    dbc.Row([
+                        dbc.Col([
+                            dbc.Label('Data:'),
+                            dcc.DatePickerSingle(id="data-modal2",
+                            min_date_allowed=date(2024,4,1),
+                            max_date_allowed=date(2029,12,31),
+                            date=datetime.today(),
+                            style={'width': '100%'}
+                            ),
+                        ],width=4 , style={'margin-top': '10px'}),
+
+                        dbc.Col([
+                            dbc.Label('Outros'),
+                            dbc.Checklist(
+                                options=[],
+                                value=[],
+                                id='outros-medicamento',
+                                switch=True
+                            ),
+                        ],width=4 , style={'margin-top': '10px'}),
+
+                        dbc.Col([
+                            html.Label('Categoria'),
+                            dbc.Select(
+                                id='selecao-medicamentos',
+                                options=[],
+                                value=[]
+                                ),
+                        ],width=4 , style={'margin-top': '10px'})
+                    ]),
+
+                    dbc.Row([
+                        dbc.Accordion([
+                            dbc.AccordionItem(children=[
+                                dbc.Row([
+                                    dbc.Col([
+                                       html.Legend('Adicionar Categoria', style={'color': 'green'}),
+                                       dbc.Input(type='text',placeholder='Nova Categoria',id='nova-categoria', value=""),
+                                       html.Br(),
+                                       dbc.Button('Adicionar',className='btn btn-success',id='botao-adicionar-medicamentos',style={'margin-top': '20px'}),
+                                       html.Br(),
+                                       html.Div(id='divisao-categoria-medicamentos'),
+                                    ], width=6),
+                                    dbc.Col([
+                                        html.Legend('Excluir Categorias',style={'color': 'red', 'margin-left': '20px'}),
+                                        dbc.Checklist(id='selecao-checklist', 
+                                                      options=[],
+                                                      value=[],
+                                                      label_checked_style={'color': 'red'},
+                                                      input_checked_style={'backgroundcolor':'blue','bordercolor': 'red'}                                                     
+                                                    ),
+                                    dbc.Button('Remover',color='danger', id='remover-categoria-medicamentos', style={'margin-top': '23%', 'margin-left': '20px'})
+                                    ],width=6)
+                                ])
+                            ], title='Adicionar e Remover Categorias')
+                        ], flush=True, start_collapsed=True, id='adicionar-remover' ,style={'margin-top': '20px'}),
+
+                        html.Div(id='teste-medicamentos', style={'padding-top': '20px'}),
+                        dbc.ModalFooter([
+                            dbc.Button('Adicionar medicamentos', id='salvar-receita', color='success'),
+                            dbc.Popover(dbc.PopoverBody('Medicamentos Salvo'), target='salvar_medicamento', placement='left', trigger='click')
+                        ])
+                    ], style={'margin-top': '25px'}),
                 ]),
-            ], id='modal-botao2'),
+            ], id='modal-botao2', style={'backgroundcolor': 'rgba(17, 140,79, 0.05)' }, size='lg', is_open=False, centered=True, backdrop=True ),
+
             
             html.Hr(),
 
