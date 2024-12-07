@@ -15,10 +15,10 @@ import pandas as pd
 layout = dbc.Card([
             dbc.Col([
                 dbc.Card(
-                    children=[html.Img(src='./assets/brasao-do-acre.png')],
+                    children=[html.Img(src='')],
                     style={'background-color': 'transparent', 'border-color': 'transparent', 'width': '70px', 'heigth': '70px'}),
-                    html.H3('Sistema de Receitas', className='text-primary'),
-                    html.P('SESACRE', className='text-info'),
+                    html.H3('Sistema de Farmácia', className='text-primary'),
+                    html.P('Farmácia', className='text-info'),
                     html.Hr(),
 
             #perfil
