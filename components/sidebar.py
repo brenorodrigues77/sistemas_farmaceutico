@@ -206,8 +206,8 @@ layout = dbc.Card([
             #seção de navegação
             dbc.Nav([
                 dbc.NavLink('Dashboard', href='/dashboards', active='exact'),
-                dbc.NavLink('Medicamentos', href='/medicamentos', active='exact'),
                 dbc.NavLink('Receitas', href='/receitas', active='exact'),
+                dbc.NavLink('Medicamentos', href='/medicamentos', active='exact'),
             ], vertical=True, pills=True, id='nav_bottons', style={'margin-bottom': '50px'}),
             ], id='sidebar_completa')
             ], style={'margin-top': '20px'}
