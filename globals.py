@@ -21,16 +21,20 @@ else:
 
 
 if ('df_categoria_receitas.csv' in os.listdir()) and ('df_categoria_medicamentos.csv' in os.listdir()):
-    df_categoria_receitas = pd.read_csv('df_categoria_receitas.csv', index_col=0,)
-    df_categoria_medicamentos = pd.read_csv('df_categoria_medicamentos.csv', index_col=0,)
+    df_categoria_receitas = pd.read_csv('df_categoria_receitas.csv', index_col=0)
+    df_categoria_medicamentos = pd.read_csv('df_categoria_medicamentos.csv', index_col=0)
+    
     categoria_receitas = df_categoria_receitas.values.tolist()
     categoria_medicamentos = df_categoria_medicamentos.values.tolist()
 
+
 else: 
-    categoria_receitas = {'categoria_receita': ['Valor', 'Nome',]}
-    categoria_medicamentos = {'categoria_medicamentos': ['Valor', 'Nome',]}
+    categoria_receitas = {'categoria': ["valor", "nome"]}
+    categoria_medicamentos = {'categoria': ["dipirona", "paracetamol", "ibuprofeno"]}
 
     df_categoria_receitas = pd.DataFrame(categoria_receitas)
     df_categoria_medicamentos = pd.DataFrame(categoria_medicamentos)
     df_categoria_receitas.to_csv('df_categoria_receitas.csv')
     df_categoria_medicamentos.to_csv('df_categoria_medicamentos.csv')
+
+

@@ -8,6 +8,7 @@ from datetime import datetime, date
 import plotly.express as px
 import numpy as np
 import pandas as pd
+from globals import *
 
 #=====Layout
 
@@ -66,8 +67,9 @@ layout = dbc.Card([
                         dbc.Col([
                             dbc.Label('Outros'),
                             dbc.Checklist(
-                                options=[],
-                                value=[],
+                                options=[{'label':' Receita Nova', 'value': '1'},
+                                         {'label': 'Receita Recorrente', 'value':'0'}],
+                                value=[1],
                                 id='outra-receita',
                                 switch=True
                             ),
@@ -75,10 +77,9 @@ layout = dbc.Card([
 
                         dbc.Col([
                             html.Label('Categoria'),
-                            dbc.Select(
-                                id='selecao-receita',
-                                options=[],
-                                value=[]
+                            dbc.Select(id='selecao-receita',
+                                options=[{'label': i, 'value': i} for i in categoria_receitas],
+                                value=[],
                                 ),
                         ],width=4 , style={'margin-top': '10px'})
                     ]),
@@ -148,8 +149,9 @@ layout = dbc.Card([
                         dbc.Col([
                             dbc.Label('Outros'),
                             dbc.Checklist(
-                                options=[],
-                                value=[],
+                                options=[{'label':'Medicamento Novo', 'value': '1'},
+                                         {'label': 'Medicamento Recorrente', 'value':'0'}],
+                                value=[1],
                                 id='outros-medicamento',
                                 switch=True
                             ),
