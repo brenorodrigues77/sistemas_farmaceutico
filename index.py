@@ -17,7 +17,7 @@ app.layout = dbc.Container(children=[
     dcc.Store(id='memoria-receitas', data=df_receitas.to_dict()),
     dcc.Store(id='memoria-medicamentos', data=df_medicamentos.to_dict()),
     dcc.Store(id='memoria-categoria-receitas', data=df_categoria_receitas.to_dict()),
-    dcc.Store(id='memoria-categoria-receitas', data=df_categoria_medicamentos.to_dict()),
+    dcc.Store(id='memoria-categoria-medicamentos', data=df_categoria_medicamentos.to_dict()),
 
 
     dbc.Row([

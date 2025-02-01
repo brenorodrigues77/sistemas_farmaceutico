@@ -44,8 +44,7 @@ layout = dbc.Card([
                     dbc.Row([
                         dbc.Col([
                             dbc.Label('Descrição'),
-                            dbc.Input(placeholder='Descrição', id='descricao-modal1'),
-                            
+                            dbc.Input(placeholder='Descrição', id='descricao-modal1'), 
                         ], width=6),
                         dbc.Col([
                             dbc.Label('Valor'),
@@ -79,7 +78,7 @@ layout = dbc.Card([
                             html.Label('Categoria'),
                             dbc.Select(id='selecao-receita',
                                 options=[{'label': i, 'value': i} for i in categoria_receitas],
-                                value=[],
+                                value=categoria_receitas[0],
                                 ),
                         ],width=4 , style={'margin-top': '10px'})
                     ]),
@@ -113,7 +112,7 @@ layout = dbc.Card([
                         html.Div(id='teste-receita', style={'padding-top': '20px'}),
                         dbc.ModalFooter([
                             dbc.Button('Adicionar Receita', id='salvar-receita', color='success'),
-                            dbc.Popover(dbc.PopoverBody('Receita Salva'), target='salvar_receita', placement='left', trigger='click')
+                            dbc.Popover(dbc.PopoverBody('Receita Salva'), target='salvar_receita', placement='left', trigger='click'),
                         ])
                     ], style={'margin-top': '25px'}),
                 ]),
@@ -161,8 +160,8 @@ layout = dbc.Card([
                             html.Label('Categoria'),
                             dbc.Select(
                                 id='selecao-medicamentos',
-                                options=[],
-                                value=[]
+                                options=[{'label': i, 'value': i} for i in categoria_medicamentos],
+                                value=categoria_medicamentos[0],
                                 ),
                         ],width=4 , style={'margin-top': '10px'})
                     ]),
@@ -195,7 +194,7 @@ layout = dbc.Card([
 
                         html.Div(id='teste-medicamentos', style={'padding-top': '20px'}),
                         dbc.ModalFooter([
-                            dbc.Button('Adicionar medicamentos', id='salvar-receita', color='success'),
+                            dbc.Button('Adicionar medicamentos', id='salvar-medicamento', color='success'),
                             dbc.Popover(dbc.PopoverBody('Medicamentos Salvo'), target='salvar_medicamento', placement='left', trigger='click')
                         ])
                     ], style={'margin-top': '25px'}),
@@ -238,3 +237,34 @@ def toggle_modal(n1, is_open):
 def toggle_modal(n1, is_open):
     if n1:
         return not is_open
+@app.callback(
+   Output('memoria-receitas', 'data'),
+   Input('salvar-receita', 'n_clicks'),
+
+    [State('descricao-modal1', 'value'),
+     State('valor-modal1', 'value'),
+     State('data-modal1', 'date'),
+     State('outra-receita', 'value'),
+     State('selecao-receita', 'value'),
+     State('memoria-receitas', 'data'),
+     ],
+   )
+
+def salvar_receita(n_clicks, descricao, valor, data, outra_receita, categoria_receita, memoria_receitas):
+    #import pdb
+    #pdb.set_trace()
+
+    df_receitas = pd.DataFrame(memoria_receitas)
+
+    if n_clicks and not(valor == "" or valor == None):
+        valor = round(float(valor), 2)
+        data = pd.to_datetime(data).date()
+        categoria_receita = categoria_receita[0]
+        recebido = 1 if 1 in outra_receita else 0
+        fixo = 1 if 2 in outra_receita else 0
+
+        df_receitas.loc[df_receitas.shape[0]] = [valor, recebido, fixo, data, categoria_receita, descricao]
+
+        df_receitas.to_csv('df_receitas.csv', index=False)
+    data_return = df_receitas.to_dict()
+    return data_return
