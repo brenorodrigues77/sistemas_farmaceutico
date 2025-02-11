@@ -10,7 +10,7 @@ from components import sidebar, dashboards, medicamentos, receitas
 
 from globals import *
 
-#=== layout do site
+# === layout do site
 content = html.Div(id='page-content')
 
 app.layout = dbc.Container(children=[
@@ -32,19 +32,19 @@ app.layout = dbc.Container(children=[
 
 ], fluid=True,)
 
-@app.callback(Output('page-content', 'children'), [Input('url','pathname')])
+
+@app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
 def page_render(pathname):
     if pathname == '/' or pathname == '/dashboards':
         return dashboards.layout
-    
+
     if pathname == '/medicamentos':
         return medicamentos.layout
-    
+
     if pathname == '/receitas':
         return receitas.layout
 
 
 if __name__ == '__main__':
     app.run_server(port=8080, debug=True)
-
-
+    
