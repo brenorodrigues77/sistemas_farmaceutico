@@ -98,7 +98,7 @@ layout = dbc.Card([
                                     html.Legend('Adicionar Categoria', style={
                                                 'color': 'green'}),
                                     dbc.Input(
-                                        type='text', placeholder='Nova Categoria', id='nova-categoria', value=""),
+                                        type='text', placeholder='Nova Categoria', id='nova-categoria-receitas', value=""),
                                     html.Br(),
                                     dbc.Button('Adicionar', className='btn btn-success',
                                                id='botao-adicionar-receita', style={'margin-top': '20px'}),
@@ -109,8 +109,9 @@ layout = dbc.Card([
                                 dbc.Col([
                                     html.Legend('Excluir Categorias', style={
                                                 'color': 'red', 'margin-left': '20px'}),
-                                    dbc.Checklist(id='selecao-checklist',
-                                                  options=[],
+                                    dbc.Checklist(id='selecao-checklist-receitas',
+                                                  options=[{'label': i, 'value': i}
+                                                           for i in categoria_receitas],
                                                   value=[],
                                                   label_checked_style={
                                                       'color': 'red'},
@@ -182,8 +183,7 @@ layout = dbc.Card([
                         html.Label('Categoria'),
                         dbc.Select(
                             id='selecao-medicamentos',
-                            options=[{'label': i, 'value': i}
-                                     for i in categoria_medicamentos],
+                            options=[],
                             value=categoria_medicamentos[0],
                         ),
                     ], width=4, style={'margin-top': '10px'})
@@ -197,7 +197,7 @@ layout = dbc.Card([
                                     html.Legend('Adicionar Categoria', style={
                                                 'color': 'green'}),
                                     dbc.Input(
-                                        type='text', placeholder='Nova Categoria', id='nova-categoria', value=""),
+                                        type='text', placeholder='Nova Categoria', id='nova-categoria-medicamentos', value=""),
                                     html.Br(),
                                     dbc.Button('Adicionar', className='btn btn-success',
                                                id='botao-adicionar-medicamentos', style={'margin-top': '20px'}),
@@ -208,8 +208,9 @@ layout = dbc.Card([
                                 dbc.Col([
                                     html.Legend('Excluir Categorias', style={
                                                 'color': 'red', 'margin-left': '20px'}),
-                                    dbc.Checklist(id='selecao-checklist',
-                                                  options=[],
+                                    dbc.Checklist(id='selecao-checklist-medicamentos',
+                                                  options=[{'label': i, 'value': i}
+                                                           for i in categoria_medicamentos],
                                                   value=[],
                                                   label_checked_style={
                                                       'color': 'red'},
@@ -332,11 +333,10 @@ def salvar_receita(n_clicks, descricao, valor, data, outra_receita, categoria_re
      ],
 )
 def salvar_receita(n_clicks, descricao, valor, data, outra_receita, categoria_receita, memoria_medicamentos):
-    # Define the columns for the DataFrame
+
     columns = ['valor', 'recebido', 'fixo',
                'data', 'categoria_receita', 'descricao']
 
-    # Create the DataFrame with the given columns, ensuring that the column names are set
     df_medicamentos = pd.DataFrame(memoria_medicamentos, columns=columns)
 
     if n_clicks and not (valor == "" or valor == None):
@@ -354,7 +354,38 @@ def salvar_receita(n_clicks, descricao, valor, data, outra_receita, categoria_re
         # Save the DataFrame to a CSV file
         df_medicamentos.to_csv('df_medicamentos.csv', index=False)
 
-    # Convert the DataFrame to a dictionary and return it
-    # Changed to orient='records' for a better structure
     data_return = df_medicamentos.to_dict(orient='records')
     return data_return
+
+
+@app.callback(
+    [Output('selecao-medicamentos', 'options'),
+     Output('selecao-checklist-medicamentos', 'value'),
+     Output('selecao-checklist-medicamentos', 'options'),
+     Output('memoria-categoria-medicamentos', 'data'),
+     ],
+
+    [Input('remover-categoria-medicamentos', 'n_clicks'),
+     Input('botao-adicionar-medicamentos', 'n_clicks'),
+     ],
+
+    [State('nova-categoria-medicamentos', 'value'),
+     State('selecao-checklist-medicamentos', 'value'),
+     State('memoria-categoria-medicamentos', 'data'),
+     ],
+)
+def adicionar_categoria_medicamentos(n1, n2, nova_categoria, selecao_checklist, memoria_categorias):
+    import pdb
+    categoria_medicamentos = list(memoria_categorias["categoria"].values())
+    pdb.set_trace()
+
+    if n1 and not (nova_categoria == "" or nova_categoria == None):
+        categoria_medicamentos = categoria_medicamentos + \
+            [nova_categoria] if nova_categoria not in categoria_medicamentos else categoria_medicamentos
+
+    if n2:
+        if len(selecao_checklist) > 0:
+            categoria_medicamentos = [
+                i for i in categoria_medicamentos if i not in selecao_checklist]
+
+    return
