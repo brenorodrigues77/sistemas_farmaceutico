@@ -183,7 +183,8 @@ layout = dbc.Card([
                         html.Label('Categoria'),
                         dbc.Select(
                             id='selecao-medicamentos',
-                            options=[],
+                            options=[{'label': i, 'value': i}
+                                     for i in categoria_medicamentos],
                             value=categoria_medicamentos[0],
                         ),
                     ], width=4, style={'margin-top': '10px'})
@@ -374,12 +375,11 @@ def salvar_receita(n_clicks, descricao, valor, data, outra_receita, categoria_re
      State('memoria-categoria-medicamentos', 'data'),
      ],
 )
-def adicionar_categoria_medicamentos(n1, n2, nova_categoria, selecao_checklist, memoria_categorias):
-    import pdb
-    categoria_medicamentos = list(memoria_categorias["categoria"].values())
-    pdb.set_trace()
+def adicionar_categoria_medicamentos(n, n2, nova_categoria, selecao_checklist, memoria_categoria):
 
-    if n1 and not (nova_categoria == "" or nova_categoria == None):
+    categoria_medicamentos = list(memoria_categoria['categoria'].values())
+
+    if n and not (nova_categoria == "" or nova_categoria == None):
         categoria_medicamentos = categoria_medicamentos + \
             [nova_categoria] if nova_categoria not in categoria_medicamentos else categoria_medicamentos
 
@@ -388,4 +388,11 @@ def adicionar_categoria_medicamentos(n1, n2, nova_categoria, selecao_checklist, 
             categoria_medicamentos = [
                 i for i in categoria_medicamentos if i not in selecao_checklist]
 
-    return
+    opt_medicamentos = [{'label': i, 'value': i}
+                        for i in categoria_medicamentos]
+    df_categoria_medicamentos = pd.DataFrame(
+        categoria_medicamentos, columns=['categoria'])
+    df_categoria_medicamentos.to_csv('df_categoria_medicamentos.csv')
+    df_return = df_categoria_medicamentos.to_dict()
+
+    return [opt_medicamentos, [], opt_medicamentos, df_return]
